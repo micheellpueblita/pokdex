@@ -1,6 +1,7 @@
 window.addEventListener("load", ()=>{
   const btnAgregar = document.getElementById("btn-agregar");
   const divAgregar = document.getElementById("contenedor-agregar");
+  const divActualizar = document.getElementById("contenedor-actualizar");
   const btnEnviar = document.getElementById("btn-enviar");
   const buscador = document.getElementById("buscador");
   const divDatos = document.getElementById("contenedor-mostrar");
@@ -65,7 +66,7 @@ window.addEventListener("load", ()=>{
         let datosForm = new FormData(formNuevo);
         fetch("dynamics/php/crear_pokemon.php", {
           method:"POST",
-          bo dy: datosForm,
+          body: datosForm,
         }).then((response)=>{
           return response.json();
         }).then((datosJSON)=>{
@@ -136,6 +137,7 @@ window.addEventListener("load", ()=>{
             divDatos.innerHTML+="<div class='dato'><strong>Peso</strong>"+datosJSON.datos.peso+"</div>";
             divDatos.innerHTML+="<div class='dato'><strong>Tipo</strong>"+datosJSON.datos.tipo+"</div>";
             divDatos.innerHTML+="<button data-id="+id+" id='btn-eliminar'>Eliminar pokemon</button>";
+            divDatos.innerHTML+="<button data-id="+id+" id='btn-actualizar'>Actualizar datos</button>";
             divDatos.style.display = "flex";
           }
         });
@@ -143,6 +145,7 @@ window.addEventListener("load", ()=>{
   });
 
   divDatos.addEventListener("click", (evento) =>{
+
     if(evento.target.id == "btn-eliminar"){
       let datosForm = new FormData();
       datosForm.append("id", evento.target.dataset.id);
@@ -161,5 +164,11 @@ window.addEventListener("load", ()=>{
           alert("No se pudo eliminar");
       });
     }
+    
+    if(evento.target.id == "btn-actualizar"){
+      divActualizar.style.display = "block";//ACTUALIZAR DATOS
+    }
+
+
   });
 });

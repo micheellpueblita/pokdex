@@ -7,6 +7,7 @@
 
     $sql = "DELETE FROM pokemon_types WHERE pok_id = $id";//elimina primero registros
     mysqli_query($con, $sql);
+    
 
     $sql = "DELETE FROM pokemon WHERE pok_id=$id";//elimina el pokemon
     $res = mysqli_query($con, $sql);

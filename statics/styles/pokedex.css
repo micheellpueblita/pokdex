@@ -41,6 +41,12 @@ body{
   padding: 2em;
 }
 
+#contenedor-actualizar{
+  background-color: white;
+  border: 2px solid black;
+  padding: 2em;
+}
+
 #contenedor-resultados{
   background-color: white;
 
@@ -79,7 +85,7 @@ div.dato{
   justify-content: center;
 }
 
-#btn-eliminar{
+#btn-eliminar, #btn-actualizar{
   min-width: 200px;
   width: 10vw;
   background-color:gold;
@@ -89,9 +95,11 @@ div.dato{
   min-height: 10vw;
 }
 
-#btn-eliminar:hover{
+#btn-eliminar:hover, #btn-actualizar:hover{
   background-color:rgb(154, 132, 9);
 }
+
+
 
 .mensajito{
   color: red;
