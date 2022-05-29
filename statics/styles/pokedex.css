@@ -85,7 +85,7 @@ div.dato{
   justify-content: center;
 }
 
-#btn-eliminar, #btn-actualizar{
+#btn-eliminar, #btn-form-actualizar{
   min-width: 200px;
   width: 10vw;
   background-color:gold;

@@ -1,7 +1,6 @@
 window.addEventListener("load", ()=>{
   const btnAgregar = document.getElementById("btn-agregar");
   const divAgregar = document.getElementById("contenedor-agregar");
-  const divActualizar = document.getElementById("contenedor-actualizar");
   const btnEnviar = document.getElementById("btn-enviar");
   const buscador = document.getElementById("buscador");
   const divDatos = document.getElementById("contenedor-mostrar");
@@ -91,6 +90,8 @@ window.addEventListener("load", ()=>{
       let selectTipos = document.getElementById("select-tipos");
       for(tipo of datosJSON){
         selectTipos.innerHTML+="<option value='"+tipo.id+"'>"+tipo.nombre+"</option>";
+        let selectTiposActualizada = document.getElementById("select-tiposActualizada");
+        selectTiposActualizada.innerHTML+="<option value='"+tipo.id+"'>"+tipo.nombre+"</option>";
       }
     });
 
@@ -122,6 +123,12 @@ window.addEventListener("load", ()=>{
     }
   });
 
+
+
+
+const contenedorActualizar = document.getElementById("contenedor-actualizar")
+
+
   divResultados.addEventListener("click", (evento)=>{
     if(evento.target.classList.contains("coincidencia")){
       let id = evento.target.dataset.id;
@@ -137,13 +144,15 @@ window.addEventListener("load", ()=>{
             divDatos.innerHTML+="<div class='dato'><strong>Peso</strong>"+datosJSON.datos.peso+"</div>";
             divDatos.innerHTML+="<div class='dato'><strong>Tipo</strong>"+datosJSON.datos.tipo+"</div>";
             divDatos.innerHTML+="<button data-id="+id+" id='btn-eliminar'>Eliminar pokemon</button>";
-            divDatos.innerHTML+="<button data-id="+id+" id='btn-actualizar'>Actualizar datos</button>";
+            divDatos.innerHTML+="<button data-id="+id+" id='btn-form-actualizar'>Actualizar datos</button>";
+            contenedorActualizar.innerHTML+="<button data-id="+id+" id='btn-actualizar'>Actualizar</button>";
             divDatos.style.display = "flex";
           }
         });
     }
   });
 
+  let datosErroneos=0;
   divDatos.addEventListener("click", (evento) =>{
 
     if(evento.target.id == "btn-eliminar"){
@@ -164,11 +173,63 @@ window.addEventListener("load", ()=>{
           alert("No se pudo eliminar");
       });
     }
-    
-    if(evento.target.id == "btn-actualizar"){
-      divActualizar.style.display = "block";//ACTUALIZAR DATOS
+    if(evento.target.id == "btn-form-actualizar"){
+      contenedorActualizar.style.display = "block";
     }
 
+    contenedorActualizar.addEventListener("change", (evento) => {
+
+      let alturaActualizada = document.getElementById("alturaActualizada").value;
+      const msgError1 = document.getElementById("msgError1");
+    
+      let pesoActualizada = document.getElementById("pesoActualizada").value;
+      const msgError2 = document.getElementById("msgError2");
+    
+      let exp_baseActualizada = document.getElementById("exp_baseActualizada").value;
+      const msgError3 = document.getElementById("msgError3");
+
+      if(alturaActualizada<0){
+        msgError1.innerHTML = "Numero invalido"
+        datosErroneos = 1;
+      }
+      if(pesoActualizada<0){
+        msgError2.innerHTML = "Numero invalido"
+        datosErroneos = 1;
+      }
+      if(exp_baseActualizada<0){
+        msgError3.innerHTML = "Numero invalido"
+        datosErroneos = 1;
+      }
+      console.log(datosErroneos)
+    })
+
+    const btnActualizar = document.getElementById("btn-actualizar")
+    const formActualizar = document.getElementById("form-actualizar")//Que ya se actualice la base de datos
+    btnActualizar.addEventListener("click", (evento) => {
+
+
+      let datosForm = new FormData(formActualizar);//Tomando la informacion del forms
+      datosForm.append("id", evento.target.dataset.id);//Agregandole el id del pokemon
+      fetch("dynamics/php/actualizar_datos.php", {
+        method:"POST",
+        body: datosForm,
+      }).then((response)=>{
+        return response.json();
+      }).then((datosJSON)=>{
+        if(datosJSON.ok == true){
+          alert("Todo bien, tu pokemon se actualizo");
+        }else{
+          alert(datosJSON.texto);
+        }
+      })
+
+
+
+
+    })
 
   });
+
+
+
 });
