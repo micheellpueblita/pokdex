@@ -3,18 +3,38 @@
 
     $con = mysqli_connect($db_host, $db_user, $db_pass, $db_schema);
 
-    
+    $id = $_POST['id']; //Aqui saca el id del form con el POST
 
-    $sql = "DELETE FROM pokemon_types WHERE pok_id = $id";//elimina primero registros
+    //Buscar las tablas y sus relaciones para poder elimanrlos correctamente
+    /* 
+    base_stats
+    pokemon_moves
+    pokemon_types
+    pokemon_evolution_matchup
+    pokemon_abilities
+    pokemon, la mayor
+    */
+
+    $sql = "DELETE FROM pokemon_types WHERE pok_id = $id";
     mysqli_query($con, $sql);
-    
 
-    $sql = "DELETE FROM pokemon WHERE pok_id=$id";//elimina el pokemon
+    $sql = "DELETE FROM pokemon_moves WHERE pok_id = $id";
+    mysqli_query($con, $sql);
+
+    $sql = "DELETE FROM base_stats WHERE pok_id = $id";
+    mysqli_query($con, $sql);
+    $sql = "DELETE FROM pokemon_abilities WHERE pok_id = $id";
+    mysqli_query($con, $sql);
+
+    $sql = "DELETE FROM pokemon_evolution_matchup WHERE pok_id = $id";
+    mysqli_query($con, $sql);
+
+    $sql = "DELETE FROM pokemon WHERE pok_id=$id";
     $res = mysqli_query($con, $sql);
 
     if($res == true)
     {
-        $respuesta = array("ok" => true);   
+        $respuesta = array("ok" => true);  
     }else
     {
         //echo mysqli_error($con);
@@ -22,4 +42,3 @@
     }
     
     echo json_encode($respuesta); 
-
