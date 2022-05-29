@@ -24,6 +24,6 @@
         $sql = "UPDATE pokemon_types SET type_id = $tipoActualizada =  WHERE pok_id = $id";
         mysqli_query($con, $sql);
 
-        $respuesta = array("ok" => true, "id" => $id, "texto" => "Se pudo ingresar, vivaa");
+        $respuesta = array("ok" => true, "id" => $id, "texto" => "Se pudo ingresar, vivaa");//no se pq
         echo json_encode($respuesta);
     }
